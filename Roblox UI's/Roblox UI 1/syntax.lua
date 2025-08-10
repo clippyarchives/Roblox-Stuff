@@ -1,6 +1,8 @@
 local syn = {};
 syn.kw = { ["and"]=true,["break"]=true,["do"]=true,["else"]=true,["elseif"]=true,["end"]=true,["false"]=true,["for"]=true,["function"]=true,["if"]=true,["in"]=true,["local"]=true,["nil"]=true,["not"]=true,["or"]=true,["repeat"]=true,["return"]=true,["then"]=true,["true"]=true,["until"]=true,["while"]=true };
-syn.col = {kw="#569CD6", str="#CE9178", com="#6A9955", num="#B5CEA8"};
+syn.lib = { game=true, workspace=true, script=true, math=true, string=true, table=true, bit32=true, task=true, coroutine=true, debug=true, os=true, Enum=true, Instance=true, CFrame=true, Vector2=true, Vector3=true, UDim2=true, Color3=true };
+syn.fn = { pairs=true, ipairs=true, next=true, type=true, tostring=true, tonumber=true, pcall=true, xpcall=true, setmetatable=true, getmetatable=true, rawget=true, rawset=true, rawequal=true, require=true, print=true, warn=true, tick=true, time=true };
+syn.col = { kw="#569CD6", str="#CE9178", com="#6A9955", num="#B5CEA8", lib="#4EC9B0", fn="#DCDCAA" };
 local sent = string.char(30);
 local function esc(s)
   s = s:gsub("&","&amp;"); s = s:gsub("<","&lt;"); s = s:gsub(">","&gt;"); return s;
@@ -29,9 +31,22 @@ function syn.hl(s)
   s = s:gsub("(%b'')", function(m) return hold("<font color=\""..syn.col.str.."\">"..m.."</font>") end);
   s = s:gsub("(%-%-[^\n]*)", function(m) return hold("<font color=\""..syn.col.com.."\">"..m.."</font>") end);
   s = map_out(s, function(seg)
-    return (seg:gsub("%f[%a_]([%a_][%w_]*)%f[^%a_]", function(w)
+    for k,_ in pairs(syn.lib) do
+      seg = seg:gsub("%f[%a_]"..k.."%f[^%a_]", function() return hold("<font color=\""..syn.col.lib.."\">"..k.."</font>") end);
+    end
+    return seg;
+  end);
+  s = map_out(s, function(seg)
+    for k,_ in pairs(syn.fn) do
+      seg = seg:gsub("%f[%a_]"..k.."%f[^%a_]", function() return hold("<font color=\""..syn.col.fn.."\">"..k.."</font>") end);
+    end
+    return seg;
+  end);
+  s = map_out(s, function(seg)
+    seg = seg:gsub("%f[%a_]([%a_][%w_]*)%f[^%a_]", function(w)
       if syn.kw[w] then return hold("<font color=\""..syn.col.kw.."\">"..w.."</font>") end; return w;
-    end));
+    end);
+    return seg;
   end);
   s = map_out(s, function(seg)
     return (seg:gsub("%f[%d]([%d]+%.?[%d]*)%f[^%d]", function(n)
