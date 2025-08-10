@@ -1,5 +1,6 @@
 local rs = game:GetService("RunService");
 local uis = game:GetService("UserInputService");
+local ts = game:GetService("TweenService");
 local cg = (gethui and gethui()) or game:GetService("CoreGui");
 local syn = loadstring(game:HttpGet("https://raw.githubusercontent.com/clippyarchives/Roblox-Stuff/main/Roblox%20UI%27s/Roblox%20UI%201/syntax.lua"))();
 local cons = {};
@@ -15,14 +16,15 @@ local btnedit = make(top, "TextButton", "edit"); btnedit.Size = UDim2.new(0,60,1
 local btncfg = make(top, "TextButton", "settings"); btncfg.Size = UDim2.new(0,90,1,0); btncfg.Position = UDim2.new(1,-96,0,0); btncfg.Text = "settings"; btncfg.Font = Enum.Font.Code; btncfg.TextSize = 16; btncfg.TextColor3 = Color3.fromRGB(140,140,150); btncfg.BackgroundTransparency = 1;
 local btnx = make(top, "TextButton", "x"); btnx.Size = UDim2.new(0,46,1,0); btnx.Position = UDim2.new(1,-46,0,0); btnx.Text = "x"; btnx.Font = Enum.Font.Code; btnx.TextSize = 16; btnx.TextColor3 = Color3.fromRGB(220,120,120); btnx.BackgroundTransparency = 1;
 local main = make(root, "Frame", "main"); main.Size = UDim2.new(1,-20,1,-48); main.Position = UDim2.new(0,10,0,38); main.BackgroundColor3 = Color3.fromRGB(22,22,26); main.BorderSizePixel = 0;
+local editv = make(main, "Frame", "editv"); editv.Size = UDim2.new(1,0,1,0); editv.Position = UDim2.new(0,0,0,0); editv.BackgroundTransparency = 1; editv.BorderSizePixel = 0;
 local gutw = 48;
-local gut = make(main, "ScrollingFrame", "gut"); gut.Size = UDim2.new(0,gutw,1,0); gut.Position = UDim2.new(0,0,0,0); gut.CanvasSize = UDim2.new(0,0,0,0); gut.ScrollBarThickness = 6; gut.ScrollBarImageColor3 = Color3.fromRGB(60,60,66); gut.BackgroundColor3 = Color3.fromRGB(19,19,23); gut.BorderSizePixel = 0;
+local gut = make(editv, "ScrollingFrame", "gut"); gut.Size = UDim2.new(0,gutw,1,0); gut.Position = UDim2.new(0,0,0,0); gut.CanvasSize = UDim2.new(0,0,0,0); gut.ScrollBarThickness = 6; gut.ScrollBarImageColor3 = Color3.fromRGB(60,60,66); gut.BackgroundColor3 = Color3.fromRGB(19,19,23); gut.BorderSizePixel = 0;
 local ln = make(gut, "TextLabel", "ln"); ln.Size = UDim2.new(1,-6,0,0); ln.Position = UDim2.new(0,6,0,0); ln.BackgroundTransparency = 1; ln.TextXAlignment = Enum.TextXAlignment.Right; ln.TextYAlignment = Enum.TextYAlignment.Top; ln.Font = Enum.Font.Code; ln.TextSize = 16; ln.TextColor3 = Color3.fromRGB(110,110,118); ln.RichText = false; ln.Text = "1";
-local sc = make(main, "ScrollingFrame", "sc"); sc.Size = UDim2.new(1,-gutw,1,0); sc.Position = UDim2.new(0,gutw,0,0); sc.CanvasSize = UDim2.new(0,0,0,0); sc.ScrollBarThickness = 6; sc.ScrollBarImageColor3 = Color3.fromRGB(60,60,66); sc.BackgroundColor3 = Color3.fromRGB(22,22,26); sc.BorderSizePixel = 0;
+local sc = make(editv, "ScrollingFrame", "sc"); sc.Size = UDim2.new(1,-gutw,1,0); sc.Position = UDim2.new(0,gutw,0,0); sc.CanvasSize = UDim2.new(0,0,0,0); sc.ScrollBarThickness = 6; sc.ScrollBarImageColor3 = Color3.fromRGB(60,60,66); sc.BackgroundColor3 = Color3.fromRGB(22,22,26); sc.BorderSizePixel = 0;
 local cnt = make(sc, "Frame", "cnt"); cnt.Size = UDim2.new(1,-12,0,0); cnt.Position = UDim2.new(0,6,0,0); cnt.BackgroundTransparency = 1;
 local hi = make(cnt, "TextLabel", "hi"); hi.Size = UDim2.new(1,0,0,0); hi.BackgroundTransparency = 1; hi.TextXAlignment = Enum.TextXAlignment.Left; hi.TextYAlignment = Enum.TextYAlignment.Top; hi.Font = Enum.Font.Code; hi.TextSize = 16; hi.TextColor3 = Color3.fromRGB(200,200,205); hi.RichText = true; hi.TextWrapped = false; hi.Text = "";
 local txt = make(cnt, "TextBox", "txt"); txt.ClearTextOnFocus = false; txt.MultiLine = true; txt.TextEditable = true; txt.Size = UDim2.new(1,0,0,0); txt.Position = UDim2.new(0,0,0,0); txt.BackgroundTransparency = 1; txt.TextTransparency = 1; txt.TextXAlignment = Enum.TextXAlignment.Left; txt.TextYAlignment = Enum.TextYAlignment.Top; txt.Font = Enum.Font.Code; txt.TextSize = 16; txt.TextColor3 = Color3.fromRGB(200,200,205);
-local setv = make(main, "Frame", "setv"); setv.Size = UDim2.new(1,0,1,0); setv.Position = UDim2.new(0,0,0,0); setv.BackgroundColor3 = Color3.fromRGB(22,22,26); setv.BorderSizePixel = 0; setv.Visible = false;
+local setv = make(main, "Frame", "setv"); setv.Size = UDim2.new(1,0,1,0); setv.Position = UDim2.new(1,0,0,0); setv.BackgroundColor3 = Color3.fromRGB(22,22,26); setv.BorderSizePixel = 0; setv.Visible = false;
 local setc = make(setv, "Frame", "setc"); setc.Size = UDim2.new(1,-20,1,-16); setc.Position = UDim2.new(0,10,0,8); setc.BackgroundTransparency = 1;
 local stl = make(setc, "TextLabel", "ttl"); stl.Size = UDim2.new(1,0,0,26); stl.BackgroundTransparency = 1; stl.TextXAlignment = Enum.TextXAlignment.Left; stl.Font = Enum.Font.Code; stl.TextSize = 16; stl.TextColor3 = Color3.fromRGB(200,200,205); stl.Text = "settings";
 local function setln(s)
@@ -51,14 +53,26 @@ end
 local function fill()
   for k,tb in pairs(flds) do tb.Text = syn.col[k] or defcol[k] or "#FFFFFF" end;
 end
-local cur = "edit";
+local cur = "edit"; local anim = false; local tinfo = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out);
 local function tab(n)
-  cur = n;
+  if anim then return end; if n == cur then return end; anim = true;
   local on = Color3.fromRGB(200,200,205); local off = Color3.fromRGB(140,140,150);
-  if n == "edit" then
-    setv.Visible = false; gut.Visible = true; sc.Visible = true; btnedit.TextColor3 = on; btncfg.TextColor3 = off;
+  if n == "settings" then
+    btnedit.TextColor3 = off; btncfg.TextColor3 = on; fill(); setv.Visible = true; editv.Visible = true; setv.Position = UDim2.new(1,0,0,0); editv.Position = UDim2.new(0,0,0,0);
+    local a = ts:Create(editv, tinfo, {Position = UDim2.new(-1,0,0,0)});
+    local b = ts:Create(setv, tinfo, {Position = UDim2.new(0,0,0,0)});
+    local con; con = b.Completed:Connect(function()
+      if con and con.Disconnect then con:Disconnect() end; editv.Visible = false; editv.Position = UDim2.new(0,0,0,0); cur = n; anim = false;
+    end);
+    a:Play(); b:Play();
   else
-    setv.Visible = true; gut.Visible = false; sc.Visible = false; btnedit.TextColor3 = off; btncfg.TextColor3 = on; fill();
+    btnedit.TextColor3 = on; btncfg.TextColor3 = off; editv.Visible = true; setv.Visible = true; editv.Position = UDim2.new(-1,0,0,0); setv.Position = UDim2.new(0,0,0,0);
+    local a = ts:Create(editv, tinfo, {Position = UDim2.new(0,0,0,0)});
+    local b = ts:Create(setv, tinfo, {Position = UDim2.new(1,0,0,0)});
+    local con; con = a.Completed:Connect(function()
+      if con and con.Disconnect then con:Disconnect() end; setv.Visible = false; setv.Position = UDim2.new(1,0,0,0); cur = n; anim = false;
+    end);
+    a:Play(); b:Play();
   end
 end
 cons[#cons+1] = btnedit.MouseButton1Click:Connect(function() tab("edit") end);
@@ -69,5 +83,5 @@ end);
 cons[#cons+1] = reset.MouseButton1Click:Connect(function()
   for k,v in pairs(defcol) do syn.col[k]=v end; fill(); upd();
 end);
-tab("edit");
+btnedit.TextColor3 = Color3.fromRGB(200,200,205); btncfg.TextColor3 = Color3.fromRGB(140,140,150); setv.Visible = false; editv.Visible = true; editv.Position = UDim2.new(0,0,0,0);
 upd();
