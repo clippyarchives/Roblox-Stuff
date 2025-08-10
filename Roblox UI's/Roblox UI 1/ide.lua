@@ -41,12 +41,19 @@ cons[#cons+1] = btnx.MouseButton1Click:Connect(function() for i=#cons,1,-1 do lo
 local defcol = {}; for k,v in pairs(syn.col) do defcol[k]=v end;
 local list = {"kw","str","com","num","lib","fn"};
 local flds = {};
+local rowh = 40; local roww = 330;
 for i=1,#list do
-  local k = list[i]; local y = 26 + (i-1)*36; local l = make(setc, "TextLabel", k.."_l"); l.Size = UDim2.new(0,80,0,28); l.Position = UDim2.new(0,0,0,y); l.BackgroundTransparency = 1; l.TextXAlignment = Enum.TextXAlignment.Left; l.Font = Enum.Font.Code; l.TextSize = 16; l.TextColor3 = Color3.fromRGB(180,180,188); l.Text = k;
-  local tb = make(setc, "TextBox", k.."_tb"); tb.Size = UDim2.new(0,170,0,28); tb.Position = UDim2.new(0,90,0,y); tb.BackgroundColor3 = Color3.fromRGB(18,18,22); tb.BorderSizePixel = 0; tb.Font = Enum.Font.Code; tb.TextSize = 16; tb.TextColor3 = Color3.fromRGB(200,200,205); tb.ClearTextOnFocus = false; tb.Text = defcol[k] or "#FFFFFF"; flds[k]=tb;
+  local k = list[i]; local y = 26 + (i-1)*(rowh+6);
+  local bx = make(setc, "Frame", k.."_bx"); bx.Size = UDim2.new(0,roww,0,rowh); bx.Position = UDim2.new(0,0,0,y); bx.BackgroundColor3 = Color3.fromRGB(26,26,30); bx.BorderSizePixel = 0;
+  local cr = Instance.new("UICorner"); cr.CornerRadius = UDim.new(0,4); cr.Parent = bx;
+  local l = make(bx, "TextLabel", k.."_l"); l.Size = UDim2.new(0,60,1,0); l.Position = UDim2.new(0,10,0,0); l.BackgroundTransparency = 1; l.TextXAlignment = Enum.TextXAlignment.Left; l.Font = Enum.Font.Code; l.TextSize = 16; l.TextColor3 = Color3.fromRGB(180,180,188); l.Text = k;
+  local tb = make(bx, "TextBox", k.."_tb"); tb.Size = UDim2.new(0,roww-90,0,28); tb.Position = UDim2.new(0,80,0,6); tb.BackgroundColor3 = Color3.fromRGB(18,18,22); tb.BorderSizePixel = 0; tb.Font = Enum.Font.Code; tb.TextSize = 16; tb.TextColor3 = Color3.fromRGB(200,200,205); tb.ClearTextOnFocus = false; tb.Text = defcol[k] or "#FFFFFF";
+  local cr2 = Instance.new("UICorner"); cr2.CornerRadius = UDim.new(0,4); cr2.Parent = tb;
+  flds[k]=tb;
 end
-local apply = make(setc, "TextButton", "apply"); apply.Size = UDim2.new(0,120,0,28); apply.Position = UDim2.new(0,0,0,26 + #list*36 + 6); apply.Text = "apply"; apply.Font = Enum.Font.Code; apply.TextSize = 16; apply.TextColor3 = Color3.fromRGB(190,220,190); apply.BackgroundColor3 = Color3.fromRGB(28,36,28); apply.BorderSizePixel = 0;
-local reset = make(setc, "TextButton", "reset"); reset.Size = UDim2.new(0,120,0,28); reset.Position = UDim2.new(0,130,0,26 + #list*36 + 6); reset.Text = "reset"; reset.Font = Enum.Font.Code; reset.TextSize = 16; reset.TextColor3 = Color3.fromRGB(220,190,190); reset.BackgroundColor3 = Color3.fromRGB(36,28,28); reset.BorderSizePixel = 0;
+local y0 = 26 + #list*(rowh+6) + 6;
+local apply = make(setc, "TextButton", "apply"); apply.Size = UDim2.new(0,120,0,28); apply.Position = UDim2.new(0,0,0,y0); apply.Text = "apply"; apply.Font = Enum.Font.Code; apply.TextSize = 16; apply.TextColor3 = Color3.fromRGB(190,220,190); apply.BackgroundColor3 = Color3.fromRGB(28,36,28); apply.BorderSizePixel = 0; local apc = Instance.new("UICorner"); apc.CornerRadius = UDim.new(0,4); apc.Parent = apply;
+local reset = make(setc, "TextButton", "reset"); reset.Size = UDim2.new(0,120,0,28); reset.Position = UDim2.new(0,130,0,y0); reset.Text = "reset"; reset.Font = Enum.Font.Code; reset.TextSize = 16; reset.TextColor3 = Color3.fromRGB(220,190,190); reset.BackgroundColor3 = Color3.fromRGB(36,28,28); reset.BorderSizePixel = 0; local rsc = Instance.new("UICorner"); rsc.CornerRadius = UDim.new(0,4); rsc.Parent = reset;
 local function normhex(s)
   if typeof(s) ~= "string" then return nil end; s = s:gsub("%s+",""); if s == "" then return nil end; if s:sub(1,1) ~= "#" then s = "#"..s end; if #s ~= 7 then return nil end; if not s:match("^#%x%x%x%x%x%x$") then return nil end; return s:upper();
 end
