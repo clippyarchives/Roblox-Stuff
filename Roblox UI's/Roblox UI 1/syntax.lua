@@ -8,6 +8,28 @@ end
 local function hold(segs, v)
   local i = #segs+1; segs[i] = v; return sent..i..sent;
 end
+local function map_out(s, f)
+  local i = 1; local out = {};
+  while true do
+    local a = string.find(s, sent, i, true);
+    if not a then out[#out+1] = f(s:sub(i)); break end;
+    local b = string.find(s, sent, a+1, true);
+    if not b then out[#out+1] = f(s:sub(i)); break end;
+    out[#out+1] = f(s:sub(i, a-1));
+    out[#out+1] = s:sub(a, b);
+    i = b + 1;
+  end
+  return table.concat(out);
+end
+local function fmt(seg)
+  seg = seg:gsub("%f[%a_]([%a_][%w_]*)%f[^%a_]", function(w)
+    if syn.kw[w] then return "<font color=\""..syn.col.kw.."\">"..w.."</font>" end; return w;
+  end);
+  seg = seg:gsub("%f[%d]([%d]+%.?[%d]*)%f[^%d]", function(n)
+    return "<font color=\""..syn.col.num.."\">"..n.."</font>";
+  end);
+  return seg;
+end
 function syn.hl(s)
   if typeof(s) ~= "string" then return "" end;
   local segs = {};
@@ -15,14 +37,7 @@ function syn.hl(s)
   s = s:gsub("(%b\"\")", function(m) return hold(segs, "<font color=\""..syn.col.str.."\">"..m.."</font>") end);
   s = s:gsub("(%b'')", function(m) return hold(segs, "<font color=\""..syn.col.str.."\">"..m.."</font>") end);
   s = s:gsub("(%-%-[^\n]*)", function(m) return hold(segs, "<font color=\""..syn.col.com.."\">"..m.."</font>") end);
-  for k,_ in pairs(syn.kw) do
-    s = s:gsub("%f[%a_]"..k.."%f[^%a_]", function()
-      return hold(segs, "<font color=\""..syn.col.kw.."\">"..k.."</font>");
-    end);
-  end
-  s = s:gsub("%f[%d]([%d]+%.?[%d]*)%f[^%d]", function(n)
-    return hold(segs, "<font color=\""..syn.col.num.."\">"..n.."</font>");
-  end);
+  s = map_out(s, fmt);
   s = s:gsub(sent.."(%d+)"..sent, function(i) return segs[tonumber(i)] or "" end);
   return s;
 end
