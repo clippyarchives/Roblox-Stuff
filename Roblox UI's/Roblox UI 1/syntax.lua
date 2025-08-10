@@ -5,9 +5,6 @@ local sent = string.char(30);
 local function esc(s)
   s = s:gsub("&","&amp;"); s = s:gsub("<","&lt;"); s = s:gsub(">","&gt;"); return s;
 end
-local function hold(segs, v)
-  local i = #segs+1; segs[i] = v; return sent..i..sent;
-end
 local function map_out(s, f)
   local i = 1; local out = {};
   while true do
@@ -21,22 +18,25 @@ local function map_out(s, f)
   end
   return table.concat(out);
 end
-local function fmt(seg)
-  seg = seg:gsub("%f[%a_]([%a_][%w_]*)%f[^%a_]", function(w)
-    if syn.kw[w] then return "<font color=\""..syn.col.kw.."\">"..w.."</font>" end; return w;
-  end);
-  seg = seg:gsub("%f[%d]([%d]+%.?[%d]*)%f[^%d]", function(n)
-    return "<font color=\""..syn.col.num.."\">"..n.."</font>";
-  end);
-  return seg;
-end
 function syn.hl(s)
   if typeof(s) ~= "string" then return "" end;
   local segs = {};
+  local function hold(v)
+    local i = #segs+1; segs[i] = v; return sent..i..sent;
+  end
   s = esc(s);
-  s = s:gsub("(%b\"\")", function(m) return hold(segs, "<font color=\""..syn.col.str.."\">"..m.."</font>") end);
-  s = s:gsub("(%b'')", function(m) return hold(segs, "<font color=\""..syn.col.str.."\">"..m.."</font>") end);
-  s = s:gsub("(%-%-[^\n]*)", function(m) return hold(segs, "<font color=\""..syn.col.com.."\">"..m.."</font>") end);
+  s = s:gsub("(%b\"\")", function(m) return hold("<font color=\""..syn.col.str.."\">"..m.."</font>") end);
+  s = s:gsub("(%b'')", function(m) return hold("<font color=\""..syn.col.str.."\">"..m.."</font>") end);
+  s = s:gsub("(%-%-[^\n]*)", function(m) return hold("<font color=\""..syn.col.com.."\">"..m.."</font>") end);
+  local function fmt(seg)
+    seg = seg:gsub("%f[%a_]([%a_][%w_]*)%f[^%a_]", function(w)
+      if syn.kw[w] then return hold("<font color=\""..syn.col.kw.."\">"..w.."</font>") end; return w;
+    end);
+    seg = seg:gsub("%f[%d]([%d]+%.?[%d]*)%f[^%d]", function(n)
+      return hold("<font color=\""..syn.col.num.."\">"..n.."</font>");
+    end);
+    return seg;
+  end
   s = map_out(s, fmt);
   s = s:gsub(sent.."(%d+)"..sent, function(i) return segs[tonumber(i)] or "" end);
   return s;
