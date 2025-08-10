@@ -10,33 +10,27 @@ end
 local sg = make(cg, "ScreenGui", "rbx_ide"); sg.ResetOnSpawn = false;
 local root = make(sg, "Frame", "root"); root.Size = UDim2.new(0,900,0,600); root.Position = UDim2.new(0.5,-450,0.5,-300); root.BackgroundColor3 = Color3.fromRGB(17,17,20); root.BorderSizePixel = 0;
 local top = make(root, "Frame", "top"); top.Size = UDim2.new(1,0,0,28); top.BackgroundColor3 = Color3.fromRGB(27,27,32); top.BorderSizePixel = 0;
-local ttl = make(top, "TextLabel", "ttl"); ttl.Size = UDim2.new(1,-106,1,0); ttl.Position = UDim2.new(0,10,0,0); ttl.BackgroundTransparency = 1; ttl.Text = "roblox ide"; ttl.Font = Enum.Font.Code; ttl.TextSize = 16; ttl.TextColor3 = Color3.fromRGB(200,200,205);
-local btncfg = make(top, "TextButton", "cfg"); btncfg.Size = UDim2.new(0,50,1,0); btncfg.Position = UDim2.new(1,-96,0,0); btncfg.Text = "cfg"; btncfg.Font = Enum.Font.Code; btncfg.TextSize = 16; btncfg.TextColor3 = Color3.fromRGB(160,180,220); btncfg.BackgroundTransparency = 1;
+local ttl = make(top, "TextLabel", "ttl"); ttl.Size = UDim2.new(1,-216,1,0); ttl.Position = UDim2.new(0,10,0,0); ttl.BackgroundTransparency = 1; ttl.Text = "roblox ide"; ttl.Font = Enum.Font.Code; ttl.TextSize = 16; ttl.TextColor3 = Color3.fromRGB(200,200,205);
+local btnedit = make(top, "TextButton", "edit"); btnedit.Size = UDim2.new(0,60,1,0); btnedit.Position = UDim2.new(1,-156,0,0); btnedit.Text = "edit"; btnedit.Font = Enum.Font.Code; btnedit.TextSize = 16; btnedit.TextColor3 = Color3.fromRGB(200,200,205); btnedit.BackgroundTransparency = 1;
+local btncfg = make(top, "TextButton", "settings"); btncfg.Size = UDim2.new(0,90,1,0); btncfg.Position = UDim2.new(1,-96,0,0); btncfg.Text = "settings"; btncfg.Font = Enum.Font.Code; btncfg.TextSize = 16; btncfg.TextColor3 = Color3.fromRGB(140,140,150); btncfg.BackgroundTransparency = 1;
 local btnx = make(top, "TextButton", "x"); btnx.Size = UDim2.new(0,46,1,0); btnx.Position = UDim2.new(1,-46,0,0); btnx.Text = "x"; btnx.Font = Enum.Font.Code; btnx.TextSize = 16; btnx.TextColor3 = Color3.fromRGB(220,120,120); btnx.BackgroundTransparency = 1;
 local main = make(root, "Frame", "main"); main.Size = UDim2.new(1,-20,1,-48); main.Position = UDim2.new(0,10,0,38); main.BackgroundColor3 = Color3.fromRGB(22,22,26); main.BorderSizePixel = 0;
-local tabh = 28;
-local tabs = make(main, "Frame", "tabs"); tabs.Size = UDim2.new(1,0,0,tabh); tabs.BackgroundColor3 = Color3.fromRGB(27,27,32); tabs.BorderSizePixel = 0;
-local tb_edit = make(tabs, "TextButton", "tb_edit"); tb_edit.Size = UDim2.new(0,80,1,0); tb_edit.Position = UDim2.new(0,0,0,0); tb_edit.Text = "edit"; tb_edit.Font = Enum.Font.Code; tb_edit.TextSize = 16; tb_edit.TextColor3 = Color3.fromRGB(200,200,205); tb_edit.BackgroundTransparency = 1;
-local tb_set = make(tabs, "TextButton", "tb_set"); tb_set.Size = UDim2.new(0,100,1,0); tb_set.Position = UDim2.new(0,82,0,0); tb_set.Text = "settings"; tb_set.Font = Enum.Font.Code; tb_set.TextSize = 16; tb_set.TextColor3 = Color3.fromRGB(140,140,150); tb_set.BackgroundTransparency = 1;
 local gutw = 48;
-local gut = make(main, "ScrollingFrame", "gut"); gut.Size = UDim2.new(0,gutw,1,-tabh); gut.Position = UDim2.new(0,0,0,tabh); gut.CanvasSize = UDim2.new(0,0,0,0); gut.ScrollBarThickness = 6; gut.ScrollBarImageColor3 = Color3.fromRGB(60,60,66); gut.BackgroundColor3 = Color3.fromRGB(19,19,23); gut.BorderSizePixel = 0;
+local gut = make(main, "ScrollingFrame", "gut"); gut.Size = UDim2.new(0,gutw,1,0); gut.Position = UDim2.new(0,0,0,0); gut.CanvasSize = UDim2.new(0,0,0,0); gut.ScrollBarThickness = 6; gut.ScrollBarImageColor3 = Color3.fromRGB(60,60,66); gut.BackgroundColor3 = Color3.fromRGB(19,19,23); gut.BorderSizePixel = 0;
 local ln = make(gut, "TextLabel", "ln"); ln.Size = UDim2.new(1,-6,0,0); ln.Position = UDim2.new(0,6,0,0); ln.BackgroundTransparency = 1; ln.TextXAlignment = Enum.TextXAlignment.Right; ln.TextYAlignment = Enum.TextYAlignment.Top; ln.Font = Enum.Font.Code; ln.TextSize = 16; ln.TextColor3 = Color3.fromRGB(110,110,118); ln.RichText = false; ln.Text = "1";
-local sc = make(main, "ScrollingFrame", "sc"); sc.Size = UDim2.new(1,-gutw,1,-tabh); sc.Position = UDim2.new(0,gutw,0,tabh); sc.CanvasSize = UDim2.new(0,0,0,0); sc.ScrollBarThickness = 6; sc.ScrollBarImageColor3 = Color3.fromRGB(60,60,66); sc.BackgroundColor3 = Color3.fromRGB(22,22,26); sc.BorderSizePixel = 0;
+local sc = make(main, "ScrollingFrame", "sc"); sc.Size = UDim2.new(1,-gutw,1,0); sc.Position = UDim2.new(0,gutw,0,0); sc.CanvasSize = UDim2.new(0,0,0,0); sc.ScrollBarThickness = 6; sc.ScrollBarImageColor3 = Color3.fromRGB(60,60,66); sc.BackgroundColor3 = Color3.fromRGB(22,22,26); sc.BorderSizePixel = 0;
 local cnt = make(sc, "Frame", "cnt"); cnt.Size = UDim2.new(1,-12,0,0); cnt.Position = UDim2.new(0,6,0,0); cnt.BackgroundTransparency = 1;
 local hi = make(cnt, "TextLabel", "hi"); hi.Size = UDim2.new(1,0,0,0); hi.BackgroundTransparency = 1; hi.TextXAlignment = Enum.TextXAlignment.Left; hi.TextYAlignment = Enum.TextYAlignment.Top; hi.Font = Enum.Font.Code; hi.TextSize = 16; hi.TextColor3 = Color3.fromRGB(200,200,205); hi.RichText = true; hi.TextWrapped = false; hi.Text = "";
 local txt = make(cnt, "TextBox", "txt"); txt.ClearTextOnFocus = false; txt.MultiLine = true; txt.TextEditable = true; txt.Size = UDim2.new(1,0,0,0); txt.Position = UDim2.new(0,0,0,0); txt.BackgroundTransparency = 1; txt.TextTransparency = 1; txt.TextXAlignment = Enum.TextXAlignment.Left; txt.TextYAlignment = Enum.TextYAlignment.Top; txt.Font = Enum.Font.Code; txt.TextSize = 16; txt.TextColor3 = Color3.fromRGB(200,200,205);
-local setv = make(main, "Frame", "setv"); setv.Size = UDim2.new(1,0,1,-tabh); setv.Position = UDim2.new(0,0,0,tabh); setv.BackgroundColor3 = Color3.fromRGB(22,22,26); setv.BorderSizePixel = 0; setv.Visible = false;
+local setv = make(main, "Frame", "setv"); setv.Size = UDim2.new(1,0,1,0); setv.Position = UDim2.new(0,0,0,0); setv.BackgroundColor3 = Color3.fromRGB(22,22,26); setv.BorderSizePixel = 0; setv.Visible = false;
 local setc = make(setv, "Frame", "setc"); setc.Size = UDim2.new(1,-20,1,-16); setc.Position = UDim2.new(0,10,0,8); setc.BackgroundTransparency = 1;
 local stl = make(setc, "TextLabel", "ttl"); stl.Size = UDim2.new(1,0,0,26); stl.BackgroundTransparency = 1; stl.TextXAlignment = Enum.TextXAlignment.Left; stl.Font = Enum.Font.Code; stl.TextSize = 16; stl.TextColor3 = Color3.fromRGB(200,200,205); stl.Text = "settings";
-local function vlim()
-  return math.max(hi.TextBounds.Y, main.AbsoluteSize.Y - tabh);
-end
 local function setln(s)
-  local n = 1; for _ in s:gmatch("\n") do n = n + 1 end; local t = {}; for i=1,n do t[#t+1] = tostring(i) end; ln.Text = table.concat(t, "\n"); ln.Size = UDim2.new(1,-6,0,hi.TextBounds.Y); gut.CanvasSize = UDim2.new(0,0,0,vlim());
+  local n = 1; for _ in s:gmatch("\n") do n = n + 1 end; local t = {}; for i=1,n do t[#t+1] = tostring(i) end; ln.Text = table.concat(t, "\n"); ln.Size = UDim2.new(1,-6,0,hi.TextBounds.Y); gut.CanvasSize = UDim2.new(0,0,0,math.max(hi.TextBounds.Y, main.AbsoluteSize.Y));
 end
 local t0 = 0; local dt = 0.05; local pend = false;
 local function upd()
-  local s = txt.Text; hi.Text = syn.hl(s); hi.Size = UDim2.new(1,0,0,hi.TextBounds.Y+8); txt.Size = hi.Size; sc.CanvasSize = UDim2.new(0,0,0,vlim()); setln(s);
+  local s = txt.Text; hi.Text = syn.hl(s); hi.Size = UDim2.new(1,0,0,hi.TextBounds.Y+8); txt.Size = hi.Size; sc.CanvasSize = UDim2.new(0,0,0,math.max(hi.TextBounds.Y, main.AbsoluteSize.Y)); setln(s);
 end
 cons[#cons+1] = txt:GetPropertyChangedSignal("Text"):Connect(function() pend = true; end);
 cons[#cons+1] = rs.Heartbeat:Connect(function() if not pend then return end; local now = os.clock(); if now - t0 < dt then return end; t0 = now; pend = false; upd(); end);
@@ -62,13 +56,12 @@ local function tab(n)
   cur = n;
   local on = Color3.fromRGB(200,200,205); local off = Color3.fromRGB(140,140,150);
   if n == "edit" then
-    setv.Visible = false; gut.Visible = true; sc.Visible = true; tb_edit.TextColor3 = on; tb_set.TextColor3 = off;
+    setv.Visible = false; gut.Visible = true; sc.Visible = true; btnedit.TextColor3 = on; btncfg.TextColor3 = off;
   else
-    setv.Visible = true; gut.Visible = false; sc.Visible = false; tb_edit.TextColor3 = off; tb_set.TextColor3 = on; fill();
+    setv.Visible = true; gut.Visible = false; sc.Visible = false; btnedit.TextColor3 = off; btncfg.TextColor3 = on; fill();
   end
 end
-cons[#cons+1] = tb_edit.MouseButton1Click:Connect(function() tab("edit") end);
-cons[#cons+1] = tb_set.MouseButton1Click:Connect(function() tab("settings") end);
+cons[#cons+1] = btnedit.MouseButton1Click:Connect(function() tab("edit") end);
 cons[#cons+1] = btncfg.MouseButton1Click:Connect(function() tab("settings") end);
 cons[#cons+1] = apply.MouseButton1Click:Connect(function()
   for k,tb in pairs(flds) do local v = normhex(tb.Text); if v then syn.col[k]=v end end; upd();
