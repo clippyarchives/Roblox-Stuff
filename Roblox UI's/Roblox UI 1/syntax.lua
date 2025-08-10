@@ -28,16 +28,16 @@ function syn.hl(s)
   s = s:gsub("(%b\"\")", function(m) return hold("<font color=\""..syn.col.str.."\">"..m.."</font>") end);
   s = s:gsub("(%b'')", function(m) return hold("<font color=\""..syn.col.str.."\">"..m.."</font>") end);
   s = s:gsub("(%-%-[^\n]*)", function(m) return hold("<font color=\""..syn.col.com.."\">"..m.."</font>") end);
-  local function fmt(seg)
-    seg = seg:gsub("%f[%a_]([%a_][%w_]*)%f[^%a_]", function(w)
+  s = map_out(s, function(seg)
+    return (seg:gsub("%f[%a_]([%a_][%w_]*)%f[^%a_]", function(w)
       if syn.kw[w] then return hold("<font color=\""..syn.col.kw.."\">"..w.."</font>") end; return w;
-    end);
-    seg = seg:gsub("%f[%d]([%d]+%.?[%d]*)%f[^%d]", function(n)
+    end));
+  end);
+  s = map_out(s, function(seg)
+    return (seg:gsub("%f[%d]([%d]+%.?[%d]*)%f[^%d]", function(n)
       return hold("<font color=\""..syn.col.num.."\">"..n.."</font>");
-    end);
-    return seg;
-  end
-  s = map_out(s, fmt);
+    end));
+  end);
   s = s:gsub(sent.."(%d+)"..sent, function(i) return segs[tonumber(i)] or "" end);
   return s;
 end
