@@ -10,7 +10,8 @@ end
 local sg = make(cg, "ScreenGui", "rbx_ide"); sg.ResetOnSpawn = false;
 local root = make(sg, "Frame", "root"); root.Size = UDim2.new(0,900,0,600); root.Position = UDim2.new(0.5,-450,0.5,-300); root.BackgroundColor3 = Color3.fromRGB(17,17,20); root.BorderSizePixel = 0;
 local top = make(root, "Frame", "top"); top.Size = UDim2.new(1,0,0,28); top.BackgroundColor3 = Color3.fromRGB(27,27,32); top.BorderSizePixel = 0;
-local ttl = make(top, "TextLabel", "ttl"); ttl.Size = UDim2.new(1,-56,1,0); ttl.Position = UDim2.new(0,10,0,0); ttl.BackgroundTransparency = 1; ttl.Text = "roblox ide"; ttl.Font = Enum.Font.Code; ttl.TextSize = 16; ttl.TextColor3 = Color3.fromRGB(200,200,205);
+local ttl = make(top, "TextLabel", "ttl"); ttl.Size = UDim2.new(1,-106,1,0); ttl.Position = UDim2.new(0,10,0,0); ttl.BackgroundTransparency = 1; ttl.Text = "roblox ide"; ttl.Font = Enum.Font.Code; ttl.TextSize = 16; ttl.TextColor3 = Color3.fromRGB(200,200,205);
+local btncfg = make(top, "TextButton", "cfg"); btncfg.Size = UDim2.new(0,50,1,0); btncfg.Position = UDim2.new(1,-96,0,0); btncfg.Text = "cfg"; btncfg.Font = Enum.Font.Code; btncfg.TextSize = 16; btncfg.TextColor3 = Color3.fromRGB(160,180,220); btncfg.BackgroundTransparency = 1;
 local btnx = make(top, "TextButton", "x"); btnx.Size = UDim2.new(0,46,1,0); btnx.Position = UDim2.new(1,-46,0,0); btnx.Text = "x"; btnx.Font = Enum.Font.Code; btnx.TextSize = 16; btnx.TextColor3 = Color3.fromRGB(220,120,120); btnx.BackgroundTransparency = 1;
 local main = make(root, "Frame", "main"); main.Size = UDim2.new(1,-20,1,-48); main.Position = UDim2.new(0,10,0,38); main.BackgroundColor3 = Color3.fromRGB(22,22,26); main.BorderSizePixel = 0;
 local gutw = 48;
@@ -31,4 +32,28 @@ cons[#cons+1] = txt:GetPropertyChangedSignal("Text"):Connect(function() pend = t
 cons[#cons+1] = rs.Heartbeat:Connect(function() if not pend then return end; local now = os.clock(); if now - t0 < dt then return end; t0 = now; pend = false; upd(); end);
 cons[#cons+1] = sc:GetPropertyChangedSignal("CanvasPosition"):Connect(function() gut.CanvasPosition = Vector2.new(0, sc.CanvasPosition.Y); end);
 cons[#cons+1] = btnx.MouseButton1Click:Connect(function() for i=#cons,1,-1 do local c = cons[i]; if c and c.Disconnect then c:Disconnect() end end; sg:Destroy(); end);
+local defcol = {}; for k,v in pairs(syn.col) do defcol[k]=v end;
+local cfgp = make(root, "Frame", "cfg"); cfgp.Size = UDim2.new(0,280,0,260); cfgp.Position = UDim2.new(1,-290,0,38); cfgp.BackgroundColor3 = Color3.fromRGB(24,24,28); cfgp.BorderSizePixel = 0; cfgp.Visible = false;
+local cfgttl = make(cfgp, "TextLabel", "ttl"); cfgttl.Size = UDim2.new(1,0,0,26); cfgttl.Position = UDim2.new(0,0,0,0); cfgttl.BackgroundColor3 = Color3.fromRGB(30,30,36); cfgttl.BorderSizePixel = 0; cfgttl.Text = "settings"; cfgttl.Font = Enum.Font.Code; cfgttl.TextSize = 16; cfgttl.TextColor3 = Color3.fromRGB(200,200,205);
+local list = {"kw","str","com","num","lib","fn"};
+local flds = {};
+for i=1,#list do
+  local k = list[i]; local y = 26 + (i-1)*36; local l = make(cfgp, "TextLabel", k.."_l"); l.Size = UDim2.new(0,80,0,28); l.Position = UDim2.new(0,10,0,y); l.BackgroundTransparency = 1; l.TextXAlignment = Enum.TextXAlignment.Left; l.Font = Enum.Font.Code; l.TextSize = 16; l.TextColor3 = Color3.fromRGB(180,180,188); l.Text = k;
+  local tb = make(cfgp, "TextBox", k.."_tb"); tb.Size = UDim2.new(0,170,0,28); tb.Position = UDim2.new(0,100,0,y); tb.BackgroundColor3 = Color3.fromRGB(18,18,22); tb.BorderSizePixel = 0; tb.Font = Enum.Font.Code; tb.TextSize = 16; tb.TextColor3 = Color3.fromRGB(200,200,205); tb.ClearTextOnFocus = false; tb.Text = defcol[k] or "#FFFFFF"; flds[k]=tb;
+end
+local apply = make(cfgp, "TextButton", "apply"); apply.Size = UDim2.new(0,120,0,28); apply.Position = UDim2.new(0,10,0,26 + #list*36 + 6); apply.Text = "apply"; apply.Font = Enum.Font.Code; apply.TextSize = 16; apply.TextColor3 = Color3.fromRGB(190,220,190); apply.BackgroundColor3 = Color3.fromRGB(28,36,28); apply.BorderSizePixel = 0;
+local reset = make(cfgp, "TextButton", "reset"); reset.Size = UDim2.new(0,120,0,28); reset.Position = UDim2.new(0,150,0,26 + #list*36 + 6); reset.Text = "reset"; reset.Font = Enum.Font.Code; reset.TextSize = 16; reset.TextColor3 = Color3.fromRGB(220,190,190); reset.BackgroundColor3 = Color3.fromRGB(36,28,28); reset.BorderSizePixel = 0;
+local function normhex(s)
+  if typeof(s) ~= "string" then return nil end; s = s:gsub("%s+",""); if s == "" then return nil end; if s:sub(1,1) ~= "#" then s = "#"..s end; if #s ~= 7 then return nil end; if not s:match("^#%x%x%x%x%x%x$") then return nil end; return s:upper();
+end
+local function fill()
+  for k,tb in pairs(flds) do tb.Text = syn.col[k] or defcol[k] or "#FFFFFF" end;
+end
+cons[#cons+1] = btncfg.MouseButton1Click:Connect(function() cfgp.Visible = not cfgp.Visible; if cfgp.Visible then fill() end; end);
+cons[#cons+1] = apply.MouseButton1Click:Connect(function()
+  for k,tb in pairs(flds) do local v = normhex(tb.Text); if v then syn.col[k]=v end end; upd();
+end);
+cons[#cons+1] = reset.MouseButton1Click:Connect(function()
+  for k,v in pairs(defcol) do syn.col[k]=v end; fill(); upd();
+end);
 upd();
