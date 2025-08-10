@@ -16,9 +16,13 @@ function syn.hl(s)
   s = s:gsub("(%b'')", function(m) return hold(segs, "<font color=\""..syn.col.str.."\">"..m.."</font>") end);
   s = s:gsub("(%-%-[^\n]*)", function(m) return hold(segs, "<font color=\""..syn.col.com.."\">"..m.."</font>") end);
   for k,_ in pairs(syn.kw) do
-    s = s:gsub("%f[%a_]"..k.."%f[^%a_]", "<font color=\""..syn.col.kw.."\">"..k.."</font>");
+    s = s:gsub("%f[%a_]"..k.."%f[^%a_]", function()
+      return hold(segs, "<font color=\""..syn.col.kw.."\">"..k.."</font>");
+    end);
   end
-  s = s:gsub("%f[%d]([%d]+%.?[%d]*)%f[^%d]", "<font color=\""..syn.col.num.."\">%1</font>");
+  s = s:gsub("%f[%d]([%d]+%.?[%d]*)%f[^%d]", function(n)
+    return hold(segs, "<font color=\""..syn.col.num.."\">"..n.."</font>");
+  end);
   s = s:gsub(sent.."(%d+)"..sent, function(i) return segs[tonumber(i)] or "" end);
   return s;
 end
