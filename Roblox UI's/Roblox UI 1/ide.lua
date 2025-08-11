@@ -87,6 +87,10 @@ for i=1,3 do
 end
 local s_tog_h = pad + headh + 6 + 3*36 + pad; s_tog.Size = UDim2.new(1,0,0,s_tog_h);
 local colh = math.max(s_col_h, s_sld_h, s_tog_h); gl.CellSize = UDim2.new(1/3,-14,0,colh); cols.Size = UDim2.new(1,0,0,colh);
+local function mkfld(parent, x, y, w, key, map)
+  local l = make(parent, "TextLabel", key.."_l"); l.Size = UDim2.new(0,90,0,28); l.Position = UDim2.new(0,x,0,y); l.BackgroundTransparency = 1; l.TextXAlignment = Enum.TextXAlignment.Left; l.Font = Enum.Font.Code; l.TextSize = 16; l.TextColor3 = c3(ui.subtxt); l.Text = key;
+  local tb = make(parent, "TextBox", key.."_tb"); tb.Size = UDim2.new(0,w,0,28); tb.Position = UDim2.new(0,x+100,0,y); tb.BackgroundColor3 = c3(ui.input_bg); tb.BorderSizePixel = 0; tb.Font = Enum.Font.Code; tb.TextSize = 16; tb.TextColor3 = c3(ui.input_tx); tb.ClearTextOnFocus = false; tb.Text = map[key]; local cr = Instance.new("UICorner"); cr.CornerRadius = UDim.new(0,4); cr.Parent = tb; return tb;
+end
 local s_ui = mksec(cols, "s_ui");
 local htu = make(s_ui, "TextLabel", "ttl"); htu.Size = UDim2.new(1,-pad*2,0,headh); htu.Position = UDim2.new(0,pad,0,pad); htu.BackgroundTransparency = 1; htu.TextXAlignment = Enum.TextXAlignment.Left; htu.Font = Enum.Font.Code; htu.TextSize = 16; htu.TextColor3 = c3(ui.txt); htu.Text = "ui";
 local ufld = {};
