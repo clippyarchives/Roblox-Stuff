@@ -39,14 +39,15 @@ local cnt = make(sc, "Frame", "cnt"); cnt.Size = UDim2.new(1,-12,0,0); cnt.Posit
 local hi = make(cnt, "TextLabel", "hi"); hi.Size = UDim2.new(1,0,0,0); hi.BackgroundTransparency = 1; hi.TextXAlignment = Enum.TextXAlignment.Left; hi.TextYAlignment = Enum.TextYAlignment.Top; hi.Font = Enum.Font.Code; hi.TextSize = 16; hi.TextColor3 = c3(ui.txt); hi.RichText = true; hi.TextWrapped = false; hi.Text = "";
 local txt = make(cnt, "TextBox", "txt"); txt.ClearTextOnFocus = false; txt.MultiLine = true; txt.TextEditable = true; txt.Size = UDim2.new(1,0,0,0); txt.Position = UDim2.new(0,0,0,0); txt.BackgroundTransparency = 1; txt.TextTransparency = 1; txt.TextXAlignment = Enum.TextXAlignment.Left; txt.TextYAlignment = Enum.TextYAlignment.Top; txt.Font = Enum.Font.Code; txt.TextSize = 16; txt.TextColor3 = c3(ui.txt);
 local setv = make(main, "Frame", "setv"); setv.Size = UDim2.new(1,0,1,0); setv.Position = UDim2.new(1,0,0,0); setv.BackgroundColor3 = c3(ui.main_bg); setv.BorderSizePixel = 0; setv.Visible = false;
-local ssc = make(setv, "ScrollingFrame", "ssc"); ssc.Size = UDim2.new(1,0,1,0); ssc.CanvasSize = UDim2.new(0,0,0,0); ssc.ScrollBarThickness = 6; ssc.ScrollBarImageColor3 = c3(ui.scroll); ssc.BackgroundTransparency = 1;
-local setc = make(ssc, "Frame", "setc"); setc.Size = UDim2.new(1,-20,0,0); setc.Position = UDim2.new(0,10,0,8); setc.BackgroundTransparency = 1;
+local ssc = make(setv, "ScrollingFrame", "ssc"); ssc.Size = UDim2.new(1,0,1,0); ssc.BackgroundTransparency = 1; ssc.ScrollBarThickness = 6; ssc.ScrollBarImageColor3 = c3(ui.scroll); ssc.AutomaticCanvasSize = Enum.AutomaticSize.Y;
+local setc = make(ssc, "Frame", "setc"); setc.Size = UDim2.new(1,-20,0,0); setc.Position = UDim2.new(0,10,0,8); setc.BackgroundTransparency = 1; setc.AutomaticSize = Enum.AutomaticSize.Y;
+local stack = Instance.new("UIListLayout"); stack.Padding = UDim.new(0,8); stack.FillDirection = Enum.FillDirection.Vertical; stack.SortOrder = Enum.SortOrder.LayoutOrder; stack.Parent = setc;
 local defcol = {}; for k,v in pairs(syn.col) do defcol[k]=v end;
 local list = {"kw","str","com","num","lib","fn"};
 local flds = {};
 local headh = 26; local pad = 10;
-local stl = make(setc, "TextLabel", "ttl"); stl.Size = UDim2.new(1,0,0,headh); stl.Position = UDim2.new(0,0,0,0); stl.BackgroundTransparency = 1; stl.TextXAlignment = Enum.TextXAlignment.Left; stl.Font = Enum.Font.Code; stl.TextSize = 16; stl.TextColor3 = c3(ui.txt); stl.Text = "settings";
-local cols = make(setc, "Frame", "cols"); cols.Position = UDim2.new(0,0,0,headh+pad); cols.Size = UDim2.new(1,0,0,0); cols.BackgroundTransparency = 1;
+local stl = make(setc, "TextLabel", "ttl"); stl.Size = UDim2.new(1,0,0,headh); stl.BackgroundTransparency = 1; stl.TextXAlignment = Enum.TextXAlignment.Left; stl.Font = Enum.Font.Code; stl.TextSize = 16; stl.TextColor3 = c3(ui.txt); stl.Text = "settings"; stl.LayoutOrder = 1;
+local cols = make(setc, "Frame", "cols"); cols.BackgroundTransparency = 1; cols.AutomaticSize = Enum.AutomaticSize.Y; cols.LayoutOrder = 2;
 local gl = Instance.new("UIGridLayout"); gl.Parent = cols; gl.FillDirection = Enum.FillDirection.Horizontal; gl.HorizontalAlignment = Enum.HorizontalAlignment.Left; gl.VerticalAlignment = Enum.VerticalAlignment.Top; gl.CellPadding = UDim2.new(0,10,0,10); gl.FillDirectionMaxCells = 3; gl.SortOrder = Enum.SortOrder.Name; gl.CellSize = UDim2.new(1/3,-14,0,100);
 local function mksec(p, n)
   local s = make(p, "Frame", n); s.BackgroundColor3 = c3(ui.sec_bg); s.BorderSizePixel = 0; local c = Instance.new("UICorner"); c.CornerRadius = UDim.new(0,4); c.Parent = s; local st = Instance.new("UIStroke"); st.Color = c3(ui.sec_stroke); st.Thickness = 1; st.ApplyStrokeMode = Enum.ApplyStrokeMode.Border; st.Parent = s; return s;
@@ -106,11 +107,7 @@ for _,k in ipairs(order) do
   local cx = ux + (idx%colc)*(colw+colgap); local cy = uy + math.floor(idx/colc)*step; ufld[k] = mkfld(s_ui, cx, cy, uw, k, ui); idx = idx + 1;
 end
 local s_ui_h = uy + math.ceil(#order/colc)*step + pad; s_ui.Size = UDim2.new(1,0,0,s_ui_h);
-local s_tog_h = pad + headh + 6 + 3*36 + pad; s_tog.Size = UDim2.new(1,0,0,s_tog_h);
-local s_sld_h = pad + headh + 6 + 3*40 + pad; s_sld.Size = UDim2.new(1,0,0,s_sld_h);
-local colh = math.max(s_col_h, s_tog_h, s_sld_h, s_ui_h); gl.CellSize = UDim2.new(1/3,-14,0,colh);
-ssc.CanvasSize = UDim2.new(0,0,0, (headh+pad) + colh + 48 + 16);
-local act = make(setc, "Frame", "act"); act.Size = UDim2.new(1,0,0,38); act.Position = UDim2.new(0,0,0,(headh+pad) + colh + 8); act.BackgroundTransparency = 1;
+local act = make(setc, "Frame", "act"); act.Size = UDim2.new(1,0,0,38); act.BackgroundTransparency = 1; act.LayoutOrder = 3;
 local apply = make(act, "TextButton", "apply"); apply.Size = UDim2.new(0,120,0,28); apply.Position = UDim2.new(0,0,0,5); apply.Text = "apply"; apply.Font = Enum.Font.Code; apply.TextSize = 16; apply.TextColor3 = c3(ui.btn_ok_tx); apply.BackgroundColor3 = c3(ui.btn_ok_bg); apply.BorderSizePixel = 0; local apc = Instance.new("UICorner"); apc.CornerRadius = UDim.new(0,4); apc.Parent = apply;
 local reset = make(act, "TextButton", "reset"); reset.Size = UDim2.new(0,120,0,28); reset.Position = UDim2.new(0,130,0,5); reset.Text = "reset"; reset.Font = Enum.Font.Code; reset.TextSize = 16; reset.TextColor3 = c3(ui.btn_rs_tx); reset.BackgroundColor3 = c3(ui.btn_rs_bg); reset.BorderSizePixel = 0; local rsc = Instance.new("UICorner"); rsc.CornerRadius = UDim.new(0,4); rsc.Parent = reset;
 local function setln(s)
