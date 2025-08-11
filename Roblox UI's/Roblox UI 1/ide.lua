@@ -62,30 +62,32 @@ end
 local s_col_h = yoff + #list*rowh + pad; s_col.Size = UDim2.new(1,0,0,s_col_h);
 local s_sld = mksec(cols, "s_sld");
 local ht3 = make(s_sld, "TextLabel", "ttl"); ht3.Size = UDim2.new(1,-pad*2,0,headh); ht3.Position = UDim2.new(0,pad,0,pad); ht3.BackgroundTransparency = 1; ht3.TextXAlignment = Enum.TextXAlignment.Left; ht3.Font = Enum.Font.Code; ht3.TextSize = 16; ht3.TextColor3 = c3(ui.txt); ht3.Text = "sliders";
+local sd_names = {"ph 1","ph 2","ph 3"};
 local sd = {}; local drag_i = nil; local function sd_set(i, a)
   local d = sd[i]; if not d then return end; if typeof(a) ~= "number" then return end; if a < 0 then a = 0 elseif a > 1 then a = 1 end; d.val = a; d.fill.Size = UDim2.new(a,0,1,0);
 end
 local function sd_pos_to_val(bar)
   local m = uis:GetMouseLocation(); local x = m.X - bar.AbsolutePosition.X; local w = bar.AbsoluteSize.X; if w <= 0 then return 0 end; local v = x / w; if v < 0 then v = 0 elseif v > 1 then v = 1 end; return v;
 end
-for i=1,3 do
-  local y = pad + headh + 6 + (i-1)*40; local l = make(s_sld, "TextLabel", "sd_"..i); l.Size = UDim2.new(0,90,0,24); l.Position = UDim2.new(0,pad,0,y+2); l.BackgroundTransparency = 1; l.TextXAlignment = Enum.TextXAlignment.Left; l.Font = Enum.Font.Code; l.TextSize = 16; l.TextColor3 = c3(ui.subtxt); l.Text = "ph "..i;
+for i=1,#sd_names do
+  local y = pad + headh + 6 + (i-1)*40; local l = make(s_sld, "TextLabel", "sd_"..i); l.Size = UDim2.new(0,90,0,24); l.Position = UDim2.new(0,pad,0,y+2); l.BackgroundTransparency = 1; l.TextXAlignment = Enum.TextXAlignment.Left; l.Font = Enum.Font.Code; l.TextSize = 16; l.TextColor3 = c3(ui.subtxt); l.Text = sd_names[i];
   local bar = make(s_sld, "Frame", "bar_"..i); bar.Size = UDim2.new(1,-(pad*2+100),0,6); bar.Position = UDim2.new(0,pad+100,0,y+9); bar.BackgroundColor3 = c3(ui.sld_bar); bar.BorderSizePixel = 0; local bc = Instance.new("UICorner"); bc.CornerRadius = UDim.new(1,0); bc.Parent = bar; local fill = make(bar, "Frame", "fill"); fill.Size = UDim2.new(0.5,0,1,0); fill.Position = UDim2.new(0,0,0,0); fill.BackgroundColor3 = c3(ui.sld_fill); fill.BorderSizePixel = 0; local fc = Instance.new("UICorner"); fc.CornerRadius = UDim.new(1,0); fc.Parent = fill; sd[i] = {bar=bar,fill=fill,val=0.5};
   cons[#cons+1] = bar.InputBegan:Connect(function(inp) if inp.UserInputType == Enum.UserInputType.MouseButton1 or inp.UserInputType == Enum.UserInputType.Touch then drag_i = i; sd_set(i, sd_pos_to_val(bar)) end end);
   cons[#cons+1] = fill.InputBegan:Connect(function(inp) if inp.UserInputType == Enum.UserInputType.MouseButton1 or inp.UserInputType == Enum.UserInputType.Touch then drag_i = i; sd_set(i, sd_pos_to_val(bar)) end end);
 end
-local s_sld_h = pad + headh + 6 + 3*40 + pad; s_sld.Size = UDim2.new(1,0,0,s_sld_h);
+local s_sld_h = pad + headh + 6 + #sd_names*40 + pad; s_sld.Size = UDim2.new(1,0,0,s_sld_h);
 local s_tog = mksec(cols, "s_tog");
 local ht2 = make(s_tog, "TextLabel", "ttl"); ht2.Size = UDim2.new(1,-pad*2,0,headh); ht2.Position = UDim2.new(0,pad,0,pad); ht2.BackgroundTransparency = 1; ht2.TextXAlignment = Enum.TextXAlignment.Left; ht2.Font = Enum.Font.Code; ht2.TextSize = 16; ht2.TextColor3 = c3(ui.txt); ht2.Text = "toggles";
+local tg_names = {"ph 1","ph 2","ph 3"};
 local tg = {}; local function tg_set(i, v)
   local d = tg[i]; if not d then return end; d.val = v and true or false; ts:Create(d.dot, TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = v and UDim2.new(1,-21,0,1) or UDim2.new(0,1,0,1)}):Play(); ts:Create(d.sw, TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = v and c3(ui.tg_on) or c3(ui.tg_off)}):Play();
 end
-for i=1,3 do
-  local y = pad + headh + 6 + (i-1)*36; local l = make(s_tog, "TextLabel", "tg_"..i); l.Size = UDim2.new(0,90,0,24); l.Position = UDim2.new(0,pad,0,y+2); l.BackgroundTransparency = 1; l.TextXAlignment = Enum.TextXAlignment.Left; l.Font = Enum.Font.Code; l.TextSize = 16; l.TextColor3 = c3(ui.subtxt); l.Text = "ph "..i;
+for i=1,#tg_names do
+  local y = pad + headh + 6 + (i-1)*36; local l = make(s_tog, "TextLabel", "tg_"..i); l.Size = UDim2.new(0,90,0,24); l.Position = UDim2.new(0,pad,0,y+2); l.BackgroundTransparency = 1; l.TextXAlignment = Enum.TextXAlignment.Left; l.Font = Enum.Font.Code; l.TextSize = 16; l.TextColor3 = c3(ui.subtxt); l.Text = tg_names[i];
   local sw = make(s_tog, "Frame", "sw_"..i); sw.Size = UDim2.new(0,44,0,22); sw.Position = UDim2.new(0,pad+100,0,y); sw.BackgroundColor3 = c3(ui.tg_off); sw.BorderSizePixel = 0; local swc = Instance.new("UICorner"); swc.CornerRadius = UDim.new(1,0); swc.Parent = sw; local dot = make(sw, "Frame", "dot"); dot.Size = UDim2.new(0,20,0,20); dot.Position = UDim2.new(0,1,0,1); dot.BackgroundColor3 = c3(ui.tg_dot); dot.BorderSizePixel = 0; local dc = Instance.new("UICorner"); dc.CornerRadius = UDim.new(1,0); dc.Parent = dot; tg[i] = {sw=sw,dot=dot,val=false};
   cons[#cons+1] = sw.InputBegan:Connect(function(inp) if inp.UserInputType == Enum.UserInputType.MouseButton1 or inp.UserInputType == Enum.UserInputType.Touch then tg_set(i, not tg[i].val) end end);
 end
-local s_tog_h = pad + headh + 6 + 3*36 + pad; s_tog.Size = UDim2.new(1,0,0,s_tog_h);
+local s_tog_h = pad + headh + 6 + #tg_names*36 + pad; s_tog.Size = UDim2.new(1,0,0,s_tog_h);
 local colh = math.max(s_col_h, s_sld_h, s_tog_h); gl.CellSize = UDim2.new(1/3,-14,0,colh); cols.Size = UDim2.new(1,0,0,colh);
 local function mkfld(parent, x, y, w, key, map)
   local l = make(parent, "TextLabel", key.."_l"); l.Size = UDim2.new(0,90,0,28); l.Position = UDim2.new(0,x,0,y); l.BackgroundTransparency = 1; l.TextXAlignment = Enum.TextXAlignment.Left; l.Font = Enum.Font.Code; l.TextSize = 16; l.TextColor3 = c3(ui.subtxt); l.Text = key;
@@ -130,8 +132,8 @@ local function apply_ui()
   for _,sec in ipairs({s_col,s_sld,s_tog,s_ui}) do local st = sec:FindFirstChildOfClass("UIStroke"); if st then st.Color = c3(ui.sec_stroke) end; sec.BackgroundColor3 = c3(ui.sec_bg) end;
   for _,tb in pairs(flds) do tb.BackgroundColor3 = c3(ui.input_bg); tb.TextColor3 = c3(ui.input_tx) end; for _,tb in pairs(ufld) do tb.BackgroundColor3 = c3(ui.input_bg); tb.TextColor3 = c3(ui.input_tx) end;
   apply.BackgroundColor3 = c3(ui.btn_ok_bg); apply.TextColor3 = c3(ui.btn_ok_tx); reset.BackgroundColor3 = c3(ui.btn_rs_bg); reset.TextColor3 = c3(ui.btn_rs_tx);
-  for i=1,3 do local d = tg[i]; if d then d.dot.BackgroundColor3 = c3(ui.tg_dot); d.sw.BackgroundColor3 = d.val and c3(ui.tg_on) or c3(ui.tg_off) end end;
-  for i=1,3 do local d = sd[i]; if d then d.bar.BackgroundColor3 = c3(ui.sld_bar); d.fill.BackgroundColor3 = c3(ui.sld_fill) end end;
+  for i=1,#tg_names do local d = tg[i]; if d then d.dot.BackgroundColor3 = c3(ui.tg_dot); d.sw.BackgroundColor3 = d.val and c3(ui.tg_on) or c3(ui.tg_off) end end;
+  for i=1,#sd_names do local d = sd[i]; if d then d.bar.BackgroundColor3 = c3(ui.sld_bar); d.fill.BackgroundColor3 = c3(ui.sld_fill) end end;
 end
 cons[#cons+1] = txt:GetPropertyChangedSignal("Text"):Connect(function() pend = true; end);
 cons[#cons+1] = rs.Heartbeat:Connect(function() if not pend then return end; local now = os.clock(); if now - t0 < dt then return end; t0 = now; pend = false; upd(); end);
