@@ -51,10 +51,10 @@ local cols = make(setc, "Frame", "cols"); cols.BackgroundTransparency = 1; cols.
 local row = Instance.new("UIListLayout"); row.FillDirection = Enum.FillDirection.Horizontal; row.Padding = UDim.new(0,10); row.SortOrder = Enum.SortOrder.LayoutOrder; row.Parent = cols;
 local c1 = make(cols, "Frame", "c1"); c1.BackgroundTransparency = 1; c1.Size = UDim2.new(1/3,-14,0,0); c1.AutomaticSize = Enum.AutomaticSize.Y;
 local c2 = make(cols, "Frame", "c2"); c2.BackgroundTransparency = 1; c2.Size = UDim2.new(1/3,-14,0,0); c2.AutomaticSize = Enum.AutomaticSize.Y;
-local c3 = make(cols, "Frame", "c3"); c3.BackgroundTransparency = 1; c3.Size = UDim2.new(1/3,-14,0,0); c3.AutomaticSize = Enum.AutomaticSize.Y;
+local c3f = make(cols, "Frame", "c3"); c3f.BackgroundTransparency = 1; c3f.Size = UDim2.new(1/3,-14,0,0); c3f.AutomaticSize = Enum.AutomaticSize.Y;
 local colv1 = Instance.new("UIListLayout"); colv1.FillDirection = Enum.FillDirection.Vertical; colv1.Padding = UDim.new(0,10); colv1.Parent = c1;
 local colv2 = Instance.new("UIListLayout"); colv2.FillDirection = Enum.FillDirection.Vertical; colv2.Padding = UDim.new(0,10); colv2.Parent = c2;
-local colv3 = Instance.new("UIListLayout"); colv3.FillDirection = Enum.FillDirection.Vertical; colv3.Padding = UDim.new(0,10); colv3.Parent = c3;
+local colv3 = Instance.new("UIListLayout"); colv3.FillDirection = Enum.FillDirection.Vertical; colv3.Padding = UDim.new(0,10); colv3.Parent = c3f;
 local function mksec(p, n)
   local s = make(p, "Frame", n); s.BackgroundColor3 = c3(ui.sec_bg); s.BorderSizePixel = 0; local c = Instance.new("UICorner"); c.CornerRadius = UDim.new(0,4); c.Parent = s; local st = Instance.new("UIStroke"); st.Color = c3(ui.sec_stroke); st.Thickness = 1; st.ApplyStrokeMode = Enum.ApplyStrokeMode.Border; st.Parent = s; return s;
 end
@@ -82,7 +82,7 @@ for i=1,#sd_names do
   cons[#cons+1] = fill.InputBegan:Connect(function(inp) if inp.UserInputType == Enum.UserInputType.MouseButton1 or inp.UserInputType == Enum.UserInputType.Touch then drag_i = i; sd_set(i, sd_pos_to_val(bar)) end end);
 end
 s_sld.AutomaticSize = Enum.AutomaticSize.Y; s_sld.Size = UDim2.new(1,0,0,pad + headh + 6 + #sd_names*40 + pad);
-local s_tog = mksec(c3, "s_tog");
+local s_tog = mksec(c3f, "s_tog");
 local ht2 = make(s_tog, "TextLabel", "ttl"); ht2.Size = UDim2.new(1,-pad*2,0,headh); ht2.Position = UDim2.new(0,pad,0,pad); ht2.BackgroundTransparency = 1; ht2.TextXAlignment = Enum.TextXAlignment.Left; ht2.Font = Enum.Font.Code; ht2.TextSize = 16; ht2.TextColor3 = c3(ui.txt); ht2.Text = "toggles";
 local tg_names = {"ph 1","ph 2","ph 3"};
 local tg = {}; local function tg_set(i, v)
