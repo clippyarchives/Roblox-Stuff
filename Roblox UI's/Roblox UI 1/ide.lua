@@ -30,7 +30,7 @@ local defcol = {}; for k,v in pairs(syn.col) do defcol[k]=v end;
 local list = {"kw","str","com","num","lib","fn"};
 local flds = {};
 local secw = 360; local pad = 10; local headh = 26; local rowh = 36;
-local sec = make(setc, "Frame", "sec"); sec.Size = UDim2.new(0,secw,0,0); sec.Position = UDim2.new(0,0,0,0); sec.BackgroundColor3 = Color3.fromRGB(26,26,30); sec.BorderSizePixel = 0; local secc = Instance.new("UICorner"); secc.CornerRadius = UDim.new(0,4); secc.Parent = sec;
+local sec = make(setc, "Frame", "sec"); sec.Size = UDim2.new(0,secw,0,0); sec.Position = UDim2.new(0,0,0,0); sec.BackgroundColor3 = Color3.fromRGB(26,26,30); sec.BorderSizePixel = 0; local secc = Instance.new("UICorner"); secc.CornerRadius = UDim.new(0,4); secc.Parent = sec; local ss = Instance.new("UIStroke"); ss.Color = Color3.fromRGB(48,48,54); ss.Thickness = 1; ss.ApplyStrokeMode = Enum.ApplyStrokeMode.Border; ss.Parent = sec;
 local ht = make(sec, "TextLabel", "ttl"); ht.Size = UDim2.new(1,-pad*2,0,headh); ht.Position = UDim2.new(0,pad,0,pad); ht.BackgroundTransparency = 1; ht.TextXAlignment = Enum.TextXAlignment.Left; ht.Font = Enum.Font.Code; ht.TextSize = 16; ht.TextColor3 = Color3.fromRGB(200,200,205); ht.Text = "settings";
 local yoff = pad + headh + 6;
 for i=1,#list do
